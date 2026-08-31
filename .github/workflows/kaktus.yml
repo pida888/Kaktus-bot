@@ -1,0 +1,43 @@
+name: Kaktus Dobíječka Notifikátor
+
+on:
+  schedule:
+    # Běží každých 30 minut
+    - cron: '*/30 * * * *'
+  # Umožní ruční spuštění tlačítkem v rozhraní GitHubu
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Stažení repozitáře
+        uses: actions/checkout@v4
+
+      - name: Nastavení Pythonu
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalace knihoven
+        run: |
+          pip install -r requirements.txt
+
+      - name: Spuštění skriptu
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          python kaktus_bot.py
+
+      - name: Uložení paměti zpět do repozitáře
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add posledni_zprava.txt || true
+          git commit -m "Aktualizace posledního termínu [skip ci]" || true
+          git push || true
