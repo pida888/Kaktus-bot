@@ -2,10 +2,11 @@ name: Kaktus Dobíječka Notifikátor
 
 on:
   schedule:
-    # Běží každých 30 minut
-    - cron: '*/30 * * * *'
-  # Umožní ruční spuštění tlačítkem v rozhraní GitHubu
+    # Běží v 7. a 37. minutě mezi 6:00 a 19:59 UTC
+    # V létě: 8:00 - 21:59 ČR | V zimě: 7:00 - 20:59 ČR
+    - cron: '7,37 6-19 * * *'
   workflow_dispatch:
+
 
 permissions:
   contents: write
