@@ -1,20 +1,11 @@
 name: Kaktus Dobíječka Notifikátor
 
 on:
-  schedule:
-    # Běží v 7. a 37. minutě mezi 6:00 a 19:59 UTC
-    # V létě: 8:00 - 21:59 ČR | V zimě: 7:00 - 20:59 ČR
-    - cron: '7,37 6-19 * * *'
   workflow_dispatch:
-
-
-permissions:
-  contents: write
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-
     steps:
       - name: Stažení repozitáře
         uses: actions/checkout@v4
@@ -37,8 +28,8 @@ jobs:
 
       - name: Uložení paměti zpět do repozitáře
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add posledni_zprava.txt || true
-          git commit -m "Aktualizace posledního termínu [skip ci]" || true
-          git push || true
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add posledni_zprava.txt
+          git diff-index --quiet HEAD || git commit -m "Aktualizace posledního termínu"
+          git push
