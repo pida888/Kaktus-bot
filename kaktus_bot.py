@@ -5,6 +5,7 @@ import requests
 # 🔑 Načtení klíčů ze Secrets v GitHubu
 TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
+WEBHOOK = os.getenv("WEBHOOK")
 
 
 # 📬 Funkce pro odeslání zprávy
