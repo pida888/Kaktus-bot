@@ -41,6 +41,15 @@ if prvek:
             with open("posledni_zprava.txt", "w", encoding="utf-8") as soubor:
                 soubor.write(termin)
             print("Zpráva odeslána a termín uložen.")
+
+            # Odeslání signálu do MacroDroidu
+            try:
+                requests.get(
+                    "https://trigger.macrodroid.com/fb3a30f1-d6fa-49ba-ba9e-6d8d5b86aab4/dobijecka",
+                    timeout=10
+                )
+            except Exception as e:
+                print(f"Chyba při volání MacroDroid webhooku: {e}")
     else:
         print("Termín je stále stejný. Žádná zpráva se neodesílá. 💤")
 else:
